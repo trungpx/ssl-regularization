@@ -27,7 +27,7 @@ python3 ../../../main_pretrain.py \
     --gaussian_prob 0.0 0.0 \
     --num_crops_per_aug 1 1 \
     --name simclr_res18 \
-    --project tinyImageNet-1000ep \
+    --project AAAI2023_tinyImageNet_1000ep \
     --entity kaistssl \
     --save_checkpoint \
     --method simclr \

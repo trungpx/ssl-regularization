@@ -30,7 +30,7 @@ python3 ../../../main_pretrain.py \
     --solarization_prob 0.1 \
     --num_crops_per_aug 2 \
     --name vibcreg_res18 \
-    --project Imagenet100-200ep \
+    --project AAAI2023_ImageNet100_200ep \
     --entity trungpx \
     --save_checkpoint \
     --method vibcreg \

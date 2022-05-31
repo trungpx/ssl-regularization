@@ -27,7 +27,7 @@ python3 ../../../main_pretrain.py \
     --hue 0.2 \
     --num_crops_per_aug 2 \
     --name supcon_res18 \
-    --project Imagenet100-200ep \
+    --project AAAI2023_ImageNet100_200ep \
     --entity trungpx \
     --dali \
     --save_checkpoint \

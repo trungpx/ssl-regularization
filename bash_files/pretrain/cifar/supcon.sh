@@ -24,9 +24,9 @@ python3 ../../../main_pretrain.py \
     --gaussian_prob 0.0 0.0 \
     --crop_size 32 \
     --num_crops_per_aug 1 1 \
-    --name supcon-$1 \
-    --project solo-learn \
-    --entity unitn-mhug \
+    --name supcon_res18 \
+    --project AAAI2023_CIFAR100_200ep \
+    --entity trungpx \
     --save_checkpoint \
     --method supcon \
     --temperature 0.2 \

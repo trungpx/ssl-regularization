@@ -29,7 +29,7 @@ python3 ../../../main_pretrain.py \
     --solarization_prob 0.0 0.2 \
     --num_crops_per_aug 1 1 \
     --name byol_res50_2GPUs \
-    --project Imagenet1K-100ep \
+    --project AAAI2023_ImageNet1K_100ep \
     --entity trungpx \
     --save_checkpoint \
     --method byol \

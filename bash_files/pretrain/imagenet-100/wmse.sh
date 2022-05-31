@@ -29,7 +29,7 @@ python3 ../../../main_pretrain.py \
     --dali \
     --save_checkpoint \
     --name wmse_res18 \
-    --project Imagenet100-200ep \
+    --project AAAI2023_ImageNet100_200ep \
     --entity trungpx \
     --method wmse \
     --proj_output_dim 64 \

@@ -35,15 +35,15 @@ python3 main_pretrain.py \
     --gaussian_prob 1.0 0.1 \
     --solarization_prob 0.0 0.2 \
     --num_crops_per_aug 1 1 \
-    --name byol-400ep-custom \
-    --entity unitn-mhug \
-    --project solo-learn \
-    --wandb \
+    --name byol_res18 \
+    --entity trungpx \
+    --project AAAI2023_200ep \
     --save_checkpoint \
-    --auto_resume \
     --method byol \
     --output_dim 256 \
     --proj_hidden_dim 4096 \
     --pred_hidden_dim 8192 \
     --base_tau_momentum 0.99 \
-    --final_tau_momentum 1.0
+    --final_tau_momentum 1.0 \
+    --wandb \
+    --auto_resume \

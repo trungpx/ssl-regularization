@@ -21,7 +21,7 @@ python3 ../../../main_pretrain.py \
     --crop_size 32 \
     --num_crops_per_aug 1 1 \
     --name mocov2plus_res18 \
-    --project CIFAR100-200ep \
+    --project AAAI2023_CIFAR100_200ep \
     --entity trungpx \
     --save_checkpoint \
     --method mocov2plus \

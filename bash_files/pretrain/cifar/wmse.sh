@@ -25,7 +25,7 @@ python3 ../../../main_pretrain.py \
     --min_scale 0.2 \
     --save_checkpoint \
     --name wmse_res18 \
-    --project CIFAR100-200ep \
+    --project AAAI2023_CIFAR100_200ep \
     --entity trungpx \
     --method wmse \
     --proj_output_dim 64 \

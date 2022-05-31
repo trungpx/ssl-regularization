@@ -24,7 +24,7 @@ python3 ../../../main_pretrain.py \
     --hue 0.1 \
     --num_crops_per_aug 2 \
     --name mocov2plus_res18 \
-    --project Imagenet100-200ep \
+    --project AAAI2023_ImageNet100_200ep \
     --entity trungpx \
     --save_checkpoint \
     --method mocov2plus \

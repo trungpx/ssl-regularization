@@ -30,7 +30,7 @@ python3 ../../../main_pretrain.py \
     --num_workers 4 \
     --dali \
     --name nnclr_res18 \
-    --project Imagenet100-200ep \
+    --project AAAI2023_ImageNet100_200ep \
     --entity trungpx \
     --save_checkpoint \
     --method nnclr \
