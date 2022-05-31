@@ -15,7 +15,6 @@ python3 ../../../main_pretrain.py \
     --warmup_start_lr 0 \
     --weight_decay 1e-6 \
     --batch_size 256 \
-    --crop_size 32 \
     --brightness 0.4 \
     --contrast 0.4 \
     --saturation 0.2 \
@@ -33,5 +32,4 @@ python3 ../../../main_pretrain.py \
     --whitening_size 128 \
     --knn_eval \
     --wandb \
-    # --auto_resume \
     

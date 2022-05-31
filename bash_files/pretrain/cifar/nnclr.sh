@@ -37,4 +37,3 @@ python3 ../../../main_pretrain.py \
     --queue_size 65536 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

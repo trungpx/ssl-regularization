@@ -17,7 +17,6 @@ python3 ../../../main_pretrain.py \
     --weight_decay 1e-4 \
     --batch_size 256 \
     --num_workers 4 \
-    --crop_size 32 \
     --min_scale 0.2 \
     --brightness 0.4 \
     --contrast 0.4 \
@@ -40,4 +39,3 @@ python3 ../../../main_pretrain.py \
     --iternorm \
     --knn_eval \
     --wandb \
-    # --auto_resume \

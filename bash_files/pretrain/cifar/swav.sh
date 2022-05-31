@@ -17,7 +17,6 @@ python3 ../../../main_pretrain.py \
     --weight_decay 1e-6 \
     --batch_size 256 \
     --num_workers 4 \
-    --crop_size 32 \
     --brightness 0.8 \
     --contrast 0.8 \
     --saturation 0.8 \
@@ -38,4 +37,3 @@ python3 ../../../main_pretrain.py \
     --freeze_prototypes_epochs 2 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

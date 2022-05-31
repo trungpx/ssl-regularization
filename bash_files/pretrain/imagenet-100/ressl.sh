@@ -1,10 +1,10 @@
 python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone resnet18 \
-    --data_dir /datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
-    --max_epochs 400 \
+    --max_epochs 200 \
     --devices 0,1 \
     --accelerator gpu \
     --strategy ddp \
@@ -24,12 +24,10 @@ python3 ../../../main_pretrain.py \
     --gaussian_prob 0.5 0.0 \
     --solarization_prob 0.0 0.0 \
     --num_crops_per_aug 1 1 \
-    --name ressl-400ep-imagenet100 \
-    --project solo-learn \
-    --entity unitn-mhug \
-    --wandb \
+    --name ressl_res18 \
+    --project Imagenet100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --method ressl \
     --proj_output_dim 256 \
     --proj_hidden_dim 4096 \
@@ -37,4 +35,6 @@ python3 ../../../main_pretrain.py \
     --final_tau_momentum 1.0 \
     --momentum_classifier \
     --temperature_q 0.1 \
-    --temperature_k 0.04
+    --temperature_k 0.04 \
+    --knn_eval \
+    --wandb \

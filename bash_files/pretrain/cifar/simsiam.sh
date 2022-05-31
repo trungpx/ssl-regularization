@@ -13,7 +13,6 @@ python3 ../../../main_pretrain.py \
     --weight_decay 1e-5 \
     --batch_size 256 \
     --num_workers 4 \
-    --crop_size 32 \
     --brightness 0.4 \
     --contrast 0.4 \
     --saturation 0.4 \
@@ -32,4 +31,3 @@ python3 ../../../main_pretrain.py \
     --proj_output_dim 2048 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

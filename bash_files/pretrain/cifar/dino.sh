@@ -39,4 +39,3 @@ python3 ../../../main_pretrain.py \
     --momentum_classifier \
     --knn_eval \
     --wandb \
-    # --auto_resume \

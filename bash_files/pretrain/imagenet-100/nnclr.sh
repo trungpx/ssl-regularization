@@ -1,10 +1,10 @@
 python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone resnet18 \
-    --data_dir /datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
-    --max_epochs 400 \
+    --max_epochs 200 \
     --devices 0,1 \
     --accelerator gpu \
     --strategy ddp \
@@ -17,6 +17,7 @@ python3 ../../../main_pretrain.py \
     --exclude_bias_n_norm \
     --scheduler warmup_cosine \
     --lr 0.4 \
+    --classifier_lr 0.1 \
     --weight_decay 1e-5 \
     --batch_size 128 \
     --brightness 0.4 \
@@ -28,14 +29,15 @@ python3 ../../../main_pretrain.py \
     --num_crops_per_aug 1 1 \
     --num_workers 4 \
     --dali \
-    --wandb \
-    --name nnclr-gather-p-400ep-imagenet100 \
-    --entity unitn-mhug \
-    --project solo-learn \
+    --name nnclr_res18 \
+    --project Imagenet100-200ep \
+    --entity trungpx \
     --save_checkpoint \
     --method nnclr \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --pred_hidden_dim 4096 \
     --proj_output_dim 256 \
-    --queue_size 65536
+    --queue_size 65536 \
+    --knn_eval \
+    --wandb \

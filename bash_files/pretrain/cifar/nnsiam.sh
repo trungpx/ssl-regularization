@@ -31,4 +31,3 @@ python3 ../../../main_pretrain.py \
     --proj_output_dim 2048 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

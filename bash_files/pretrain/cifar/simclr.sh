@@ -23,7 +23,6 @@ python3 ../../../main_pretrain.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --crop_size 32 \
     --num_crops_per_aug 1 1 \
     --name simclr_res18 \
     --project CIFAR100-200ep \
@@ -35,4 +34,3 @@ python3 ../../../main_pretrain.py \
     --proj_output_dim 256 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

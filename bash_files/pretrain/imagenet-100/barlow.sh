@@ -4,7 +4,7 @@ python3 ../../../main_pretrain.py \
     --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
-    --max_epochs 400 \
+    --max_epochs 200 \
     --devices 0,1 \
     --accelerator gpu \
     --strategy ddp \
@@ -37,6 +37,5 @@ python3 ../../../main_pretrain.py \
     --method barlow_twins \
     --proj_hidden_dim 2048 \
     --proj_output_dim 2048 \
-    --wandb \
     --knn_eval \
-    # --auto_resume \
+    --wandb \

@@ -1,10 +1,10 @@
 python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone resnet18 \
-    --data_dir /datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
-    --max_epochs 400 \
+    --max_epochs 200 \
     --devices 0,1 \
     --accelerator gpu \
     --strategy ddp \
@@ -17,6 +17,7 @@ python3 ../../../main_pretrain.py \
     --exclude_bias_n_norm \
     --scheduler warmup_cosine \
     --lr 0.3 \
+    --classifier_lr 0.1 \
     --weight_decay 1e-4 \
     --batch_size 128 \
     --num_workers 4 \
@@ -28,16 +29,16 @@ python3 ../../../main_pretrain.py \
     --hue 0.1 \
     --solarization_prob 0.1 \
     --num_crops_per_aug 2 \
-    --name vibcreg-400ep-imagenet100 \
-    --entity unitn-mhug \
-    --project solo-learn \
-    --wandb \
+    --name vibcreg_res18 \
+    --project Imagenet100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --method vibcreg \
     --proj_hidden_dim 2048 \
     --proj_output_dim 2048 \
     --sim_loss_weight 25.0 \
     --var_loss_weight 25.0 \
     --cov_loss_weight 200.0 \
-    --iternorm
+    --iternorm \
+    --knn_eval \
+    --wandb \

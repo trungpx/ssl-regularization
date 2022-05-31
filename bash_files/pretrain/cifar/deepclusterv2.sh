@@ -36,4 +36,3 @@ python3 ../../../main_pretrain.py \
     --num_prototypes 3000 3000 3000 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

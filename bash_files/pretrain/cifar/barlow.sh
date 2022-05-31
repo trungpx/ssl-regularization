@@ -35,4 +35,3 @@ python3 ../../../main_pretrain.py \
     --scale_loss 0.1 \
     --knn_eval \
     --wandb \
-    # --auto_resume \

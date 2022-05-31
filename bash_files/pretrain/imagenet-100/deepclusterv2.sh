@@ -1,10 +1,10 @@
 python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone resnet18 \
-    --data_dir /datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
-    --max_epochs 400 \
+    --max_epochs 200 \
     --devices 0,1 \
     --accelerator gpu \
     --strategy ddp \
@@ -17,10 +17,10 @@ python3 ../../../main_pretrain.py \
     --exclude_bias_n_norm \
     --scheduler warmup_cosine \
     --lr 0.6 \
+    --classifier_lr 0.1 \
     --min_lr 0.0006 \
     --warmup_start_lr 0.0 \
     --warmup_epochs 11 \
-    --classifier_lr 0.1 \
     --weight_decay 1e-6 \
     --batch_size 128 \
     --num_workers 4 \
@@ -31,13 +31,14 @@ python3 ../../../main_pretrain.py \
     --saturation 0.8 \
     --hue 0.2 \
     --num_crops_per_aug 2 \
-    --name deepclusterv2-400ep-imagenet100 \
-    --entity unitn-mhug \
-    --project solo-learn \
-    --wandb \
+    --name deepclusterv2_res18 \
+    --project Imagenet100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --method deepclusterv2 \
     --proj_hidden_dim 2048 \
     --proj_output_dim 128 \
-    --num_prototypes 3000 3000 3000
+    --num_prototypes 3000 3000 3000 \
+    --knn_eval \
+    --wandb \
+    
