@@ -128,6 +128,18 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# pxt ignore from here
+code/
+checkpoint/
+*stochastic.py
+*load_checkpoint*
+test.sh
+test_*
+*.ipynb
+*.pdf
+
+
+# solo-learn ignore from here
 # tensorboard dir
 runs/
 
@@ -296,3 +308,4 @@ dmypy.json
 .history
 
 # End of https://www.gitignore.io/api/python,visualstudiocode
+
