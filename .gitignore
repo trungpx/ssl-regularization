@@ -138,7 +138,6 @@ test_*
 *.ipynb
 *.pdf
 
-
 # solo-learn ignore from here
 # tensorboard dir
 runs/
