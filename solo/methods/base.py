@@ -55,6 +55,8 @@ from solo.utils.momentum import MomentumUpdater, initialize_momentum_params
 from torch.optim.lr_scheduler import MultiStepLR
 from torchvision.models import resnet18, resnet50
 
+# from solo.methods.resnet import resnet18, resnet50
+# import ipdb
 
 def static_lr(
     get_lr: Callable, param_group_indexes: Sequence[int], lrs_to_replace: Sequence[float]

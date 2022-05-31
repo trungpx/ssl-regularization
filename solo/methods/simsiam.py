@@ -25,6 +25,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from solo.losses.simsiam import simsiam_loss_func
 from solo.methods.base import BaseMethod
+from solo.utils.metrics import corrcoef, pearsonr_cor
+from solo.utils.metrics import accuracy_at_k, weighted_mean
 
 
 class SimSiam(BaseMethod):
@@ -141,5 +143,60 @@ class SimSiam(BaseMethod):
             "train_z_std": z_std,
         }
         self.log_dict(metrics, on_epoch=True, sync_dist=True)
+
+        ## new metric Note: SimSiam has BN in projector output, hence corr is not correct, may design again if serious
+        feats1, feats2 = out["feats"]
+
+        with torch.no_grad():
+            corr_z = (torch.abs(corrcoef(z1, z2).triu(1)) + torch.abs(corrcoef(z1, z2).tril(-1))).mean()
+            pear_z = pearsonr_cor(z1, z2).mean()
+            corr_feats = (torch.abs(corrcoef(feats1, feats2).triu(1)) + torch.abs(corrcoef(feats1, feats2).tril(-1)) ).mean()
+            pear_feats = pearsonr_cor(feats1, feats2).mean()
+
+        ### new metrics
+        metrics = {
+            "Logits/avg_sum_logits_P": (torch.stack((p1,p2))).sum(-1).mean(),
+            "Logits/avg_sum_logits_P_normalized": F.normalize(torch.stack((p1,p2)), dim=-1).sum(-1).mean(),
+            "Logits/avg_sum_logits_Z": (torch.stack((z1,z2))).sum(-1).mean(),
+            "Logits/avg_sum_logits_Z_normalized": F.normalize(torch.stack((z1,z2)), dim=-1).sum(-1).mean(),
+            
+            "Logits/logits_P_max": (torch.stack((p1,p2))).max(),
+            "Logits/logits_P_min": (torch.stack((p1,p2))).min(),
+            "Logits/logits_Z_max": (torch.stack((z1,z2))).max(),
+            "Logits/logits_Z_min": (torch.stack((z1,z2))).min(),
+
+            "Logits/logits_P_normalized_max": F.normalize(torch.stack((p1,p2)), dim=-1).max(),
+            "Logits/logits_P_normalized_min": F.normalize(torch.stack((p1,p2)), dim=-1).min(),
+            "Logits/logits_Z_normalized_max": F.normalize(torch.stack((z1,z2)), dim=-1).max(),
+            "Logits/logits_Z_normalized_min": F.normalize(torch.stack((z1,z2)), dim=-1).min(),
+
+            "MeanVector/mean_vector_P_max": (torch.stack((p1,p2))).mean(1).max(),
+            "MeanVector/mean_vector_P_min": (torch.stack((p1,p2))).mean(1).min(),
+            "MeanVector/mean_vector_P_normalized_max": F.normalize(torch.stack((p1,p2)), dim=-1).mean(1).max(),
+            "MeanVector/mean_vector_P_normalized_min": F.normalize(torch.stack((p1,p2)), dim=-1).mean(1).min(),
+
+            "MeanVector/mean_vector_Z_max": (torch.stack((z1,z2))).mean(1).max(),
+            "MeanVector/mean_vector_Z_min": (torch.stack((z1,z2))).mean(1).min(),
+            "MeanVector/mean_vector_Z_normalized_max": F.normalize(torch.stack((z1,z2)), dim=-1).mean(1).max(),
+            "MeanVector/mean_vector_Z_normalized_min": F.normalize(torch.stack((z1,z2)), dim=-1).mean(1).min(),
+
+            "MeanVector/norm_vector_P": (torch.stack((p1,p2))).mean(1).mean(0).norm(),
+            "MeanVector/norm_vector_P_normalized": F.normalize(torch.stack((p1,p2)), dim=-1).mean(1).mean(0).norm(),
+            "MeanVector/norm_vector_Z": (torch.stack((z1,z2))).mean(1).mean(0).norm(),
+            "MeanVector/norm_vector_Z_normalized": F.normalize(torch.stack((z1,z2)), dim=-1).mean(1).mean(0).norm(),
+
+            "Logits/var_P": (torch.stack((p1,p2))).var(-1).mean(),
+            "Logits/var_Z": (torch.stack((z1,z2))).var(-1).mean(),
+
+            "Backbone/var": (torch.stack((feats1, feats2))).var(-1).mean(),
+            "Backbone/max": (torch.stack((feats1, feats2))).max(),
+
+            "Corr/corr_z": corr_z,
+            "Corr/pear_z": pear_z,
+            "Corr/corr_feats": corr_feats,
+            "Corr/pear_feats": pear_feats,
+        }
+        self.log_dict(metrics, on_epoch=True, sync_dist=True)
+        ### new metrics
 
         return neg_cos_sim + class_loss

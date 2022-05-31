@@ -3,7 +3,7 @@ python3 ../../../main_pretrain.py \
     --backbone resnet18 \
     --data_dir ~/workspace/datasets/ \
     --max_epochs 200 \
-    --devices 0 \
+    --devices 2 \
     --accelerator gpu \
     --precision 16 \
     --optimizer sgd \
