@@ -1,7 +1,7 @@
-python3 main_pretrain.py \
+python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone resnet18 \
-    --data_dir /datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
     --max_epochs 400 \
@@ -18,6 +18,7 @@ python3 main_pretrain.py \
     --exclude_bias_n_norm \
     --scheduler warmup_cosine \
     --lr 0.3 \
+    --classifier_lr 0.3 \
     --weight_decay 1e-4 \
     --batch_size 128 \
     --dali \
@@ -28,13 +29,14 @@ python3 main_pretrain.py \
     --gaussian_prob 1.0 0.1 \
     --solarization_prob 0.0 0.2 \
     --num_crops_per_aug 1 1 \
-    --name barlow-400ep-imagenet100 \
-    --entity unitn-mhug \
-    --project solo-learn \
-    --wandb \
+    --name barlow_res18 \
+    --project Imagenet100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --scale_loss 0.1 \
     --method barlow_twins \
     --proj_hidden_dim 2048 \
-    --proj_output_dim 2048
+    --proj_output_dim 2048 \
+    --wandb \
+    --knn_eval \
+    # --auto_resume \

@@ -1,7 +1,7 @@
-python3 main_pretrain.py \
+python3 ../../../main_pretrain.py \
     --dataset imagenet \
     --backbone resnet50 \
-    --data_dir /data/datasets \
+    --data_dir ~/workspace/datasets/ \
     --train_dir imagenet/train \
     --val_dir imagenet/val \
     --max_epochs 100 \
@@ -16,7 +16,6 @@ python3 main_pretrain.py \
     --weight_decay 3e-5 \
     --batch_size 128 \
     --num_workers 5 \
-    --dali \
     --brightness 0.4 \
     --contrast 0.4 \
     --saturation 0.2 \
@@ -24,10 +23,9 @@ python3 main_pretrain.py \
     --gaussian_prob 1.0 0.1 \
     --solarization_prob 0.0 0.2 \
     --num_crops_per_aug 1 1 \
-    --name mocov2plus-resnet50-imagenet-100ep \
-    --project solo-learn \
-    --entity unitn-mhug \
-    --wandb \
+    --name mocov2plus_res50_2GPUs \
+    --project Imagenet1K-200ep \
+    --entity trungpx \
     --save_checkpoint \
     --auto_resume \
     --method mocov2plus \
@@ -37,4 +35,6 @@ python3 main_pretrain.py \
     --base_tau_momentum 0.99 \
     --final_tau_momentum 0.999 \
     --momentum_classifier \
-    --auto_resume
+    --dali \
+    --wandb \
+    --auto_resume \

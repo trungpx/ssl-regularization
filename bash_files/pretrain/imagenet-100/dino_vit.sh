@@ -1,4 +1,4 @@
-python3 main_pretrain.py \
+python3 ../../../main_pretrain.py \
     --dataset imagenet100 \
     --backbone vit_tiny \
     --data_dir /datasets \
