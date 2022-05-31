@@ -1,8 +1,8 @@
-python3 main_pretrain.py \
-    --dataset $1 \
+python3 ../../../main_pretrain.py \
+    --dataset cifar100 \
     --backbone resnet18 \
-    --data_dir ./datasets \
-    --max_epochs 1000 \
+    --data_dir ~/workspace/datasets/ \
+    --max_epochs 200 \
     --devices 0 \
     --accelerator gpu \
     --precision 16 \
@@ -20,16 +20,17 @@ python3 main_pretrain.py \
     --gaussian_prob 0.0 0.0 \
     --crop_size 32 \
     --num_crops_per_aug 1 1 \
-    --name mocov2plus-$1 \
-    --project solo-learn \
-    --entity unitn-mhug \
-    --wandb \
+    --name mocov2plus_res18 \
+    --project CIFAR100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --method mocov2plus \
     --proj_hidden_dim 2048 \
     --queue_size 32768 \
     --temperature 0.2 \
     --base_tau_momentum 0.99 \
     --final_tau_momentum 0.999 \
-    --momentum_classifier
+    --momentum_classifier \
+    --knn_eval \
+    --wandb \
+    # --auto_resume \

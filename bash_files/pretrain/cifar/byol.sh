@@ -1,8 +1,8 @@
-python3 main_pretrain.py \
-    --dataset $1 \
+python3 ../../../main_pretrain.py \
+    --dataset cifar100 \
     --backbone resnet18 \
-    --data_dir ./datasets \
-    --max_epochs 1000 \
+    --data_dir ~/workspace/datasets/ \
+    --max_epochs 200 \
     --devices 0 \
     --accelerator gpu \
     --precision 16 \
@@ -25,16 +25,17 @@ python3 main_pretrain.py \
     --solarization_prob 0.0 0.2 \
     --crop_size 32 \
     --num_crops_per_aug 1 1 \
-    --name byol-$1 \
-    --project solo-learn \
-    --entity unitn-mhug \
-    --wandb \
+    --name byol_res18 \
+    --project CIFAR100-200ep \
+    --entity trungpx \
     --save_checkpoint \
-    --auto_resume \
     --method byol \
     --proj_output_dim 256 \
     --proj_hidden_dim 4096 \
     --pred_hidden_dim 4096 \
     --base_tau_momentum 0.99 \
     --final_tau_momentum 1.0 \
-    --momentum_classifier
+    --momentum_classifier \
+    --knn_eval \
+    --wandb \
+    # --auto_resume \

@@ -1,8 +1,8 @@
-python3 main_pretrain.py \
-    --dataset $1 \
+python3 ../../../main_pretrain.py \
+    --dataset cifar100 \
     --backbone resnet18 \
-    --data_dir ./datasets \
-    --max_epochs 1000 \
+    --data_dir ~/workspace/datasets/ \
+    --max_epochs 200 \
     --devices 0 \
     --accelerator gpu \
     --precision 16 \
@@ -28,10 +28,12 @@ python3 main_pretrain.py \
     --name supcon-$1 \
     --project solo-learn \
     --entity unitn-mhug \
-    --wandb \
     --save_checkpoint \
-    --auto_resume \
     --method supcon \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
-    --proj_output_dim 256
+    --proj_output_dim 256 \
+    --knn_eval \
+    --wandb \
+    # --auto_resume \
+    
