@@ -27,7 +27,7 @@ from solo.losses.ressl import ressl_loss_func
 from solo.methods.base import BaseMomentumMethod
 from solo.utils.momentum import initialize_momentum_params
 from solo.utils.misc import gather
-
+from solo.utils.metrics import corrcoef, pearsonr_cor
 
 class ReSSL(BaseMomentumMethod):
     def __init__(
@@ -148,7 +148,10 @@ class ReSSL(BaseMomentumMethod):
         """
 
         out = super().forward(X)
-        z = F.normalize(self.projector(out["feats"]), dim=-1)
+        # z = F.normalize(self.projector(out["feats"]), dim=-1)
+        Z = self.momentum_projector(out["feats"]) # new
+        z = F.normalize(Z, dim=-1) # new
+        out.update({"Z": Z}) # new
         out.update({"z": z})
         return out
 
@@ -193,5 +196,47 @@ class ReSSL(BaseMomentumMethod):
 
         # dequeue and enqueue
         self.dequeue_and_enqueue(k)
+
+        ### new metrics
+        feats = out["feats"]
+        Z = out["Z"]
+        z1, z2 = Z[0], Z[1]
+        with torch.no_grad():
+            z_std = F.normalize(torch.stack((z1,z2)), dim=-1).std(dim=1).mean()
+            corr_z = (torch.abs(corrcoef(Z[0], Z[1]).triu(1)) + torch.abs(corrcoef(Z[0], Z[1]).tril(-1))).mean()
+            pear_z = pearsonr_cor(Z[0], Z[1]).mean()
+            corr_feats = (torch.abs(corrcoef(feats[0], feats[1]).triu(1)) + torch.abs(corrcoef(feats[0], feats[1]).tril(-1)) ).mean()
+            pear_feats = pearsonr_cor(feats[0], feats[1]).mean()
+
+        metrics = {
+            "Logits/avg_sum_logits_Z": (torch.stack((z1,z2))).sum(-1).mean(),
+            "Logits/avg_sum_logits_Z_normalized": F.normalize(torch.stack((z1,z2)), dim=-1).sum(-1).mean(),
+            "Logits/logits_Z_max": (torch.stack((z1,z2))).max(),
+            "Logits/logits_Z_min": (torch.stack((z1,z2))).min(),
+
+            "Logits/logits_Z_normalized_max": F.normalize(torch.stack((z1,z2)), dim=-1).max(),
+            "Logits/logits_Z_normalized_min": F.normalize(torch.stack((z1,z2)), dim=-1).min(),
+
+            "MeanVector/mean_vector_Z_max": (torch.stack((z1,z2))).mean(1).max(),
+            "MeanVector/mean_vector_Z_min": (torch.stack((z1,z2))).mean(1).min(),
+            "MeanVector/mean_vector_Z_normalized_max": F.normalize(torch.stack((z1,z2))).mean(1).max(),
+            "MeanVector/mean_vector_Z_normalized_min": F.normalize(torch.stack((z1,z2))).mean(1).min(),
+
+            "MeanVector/norm_vector_Z": (torch.stack((z1,z2))).mean(1).mean(0).norm(),
+            "MeanVector/norm_vector_Z_normalized": F.normalize(torch.stack((z1,z2))).mean(1).mean(0).norm(),
+
+            "Backbone/var": (torch.stack(out["feats"])).var(-1).mean(),
+            "Backbone/max": (torch.stack(out["feats"])).max(),
+            "Logits/var_Z": (torch.stack((z1,z2))).var(-1).mean(),
+
+            "train_z_std": z_std,
+            "Corr/corr_z": corr_z,
+            "Corr/pear_z": pear_z,
+            "Corr/corr_feats": corr_feats,
+            "Corr/pear_feats": pear_feats,
+
+        }
+        self.log_dict(metrics, on_epoch=True, sync_dist=True)
+        ### new metrics
 
         return ressl_loss + class_loss
