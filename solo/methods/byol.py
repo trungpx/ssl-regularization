@@ -162,6 +162,7 @@ class BYOL(BaseMomentumMethod):
         out.update({"z": z})
         return out
 
+    '''
     def _shared_step(
         self, feats: List[torch.Tensor], momentum_feats: List[torch.Tensor]
     ) -> torch.Tensor:
@@ -177,6 +178,52 @@ class BYOL(BaseMomentumMethod):
         neg_cos_sim = byol_loss_func(P[1], Z_momentum[0]) + byol_loss_func(P[0], Z_momentum[1])
 
         # calculate std of features
+        with torch.no_grad():
+            z_std = F.normalize(torch.stack(Z[: self.num_large_crops]), dim=-1).std(dim=1).mean()
+
+        return neg_cos_sim, z_std
+    '''
+
+    def training_step(self, batch: Sequence[Any], batch_idx: int) -> torch.Tensor:
+        """Training step for BYOL reusing BaseMethod training step.
+
+        Args:
+            batch (Sequence[Any]): a batch of data in the format of [img_indexes, [X], Y], where
+                [X] is a list of size num_crops containing batches of images.
+            batch_idx (int): index of the batch.
+
+        Returns:
+            torch.Tensor: total loss composed of BYOL and classification loss.
+        """
+
+        out = super().training_step(batch, batch_idx)
+        class_loss = out["loss"]
+        Z = out["z"]
+        P = out["p"]
+        Z_momentum = out["momentum_z"]
+
+        # neg_cos_sim, z_std = self._shared_step(out["feats"], out["momentum_feats"])
+
+        # ------- negative consine similarity loss -------
+        neg_cos_sim = byol_loss_func(P[1], Z_momentum[0]) + byol_loss_func(P[0], Z_momentum[1])
+
+        # neg_cos_sim = 0
+        # for v1 in range(self.num_large_crops):
+        #     for v2 in np.delete(range(self.num_crops), v1):
+        #         neg_cos_sim += byol_loss_func(P[v2], Z_momentum[v1])
+
+        # calculate std of features
+        with torch.no_grad():
+            z_std = F.normalize(torch.stack(Z[: self.num_large_crops]), dim=-1).std(dim=1).mean()
+
+        metrics = {
+            "train_neg_cos_sim": neg_cos_sim,
+            "train_z_std": z_std,
+        }
+        self.log_dict(metrics, on_epoch=True, sync_dist=True)
+
+        # calculate std of features
+        feats = out["feats"]
         with torch.no_grad():
             z_std = F.normalize(torch.stack(Z[: self.num_large_crops]), dim=-1).std(dim=1).mean()
             corr_z = (torch.abs(corrcoef(Z[0], Z[1]).triu(1)) + torch.abs(corrcoef(Z[0], Z[1]).tril(-1))).mean()
@@ -229,45 +276,5 @@ class BYOL(BaseMomentumMethod):
         }
         self.log_dict(metrics, on_epoch=True, sync_dist=True)
         ### new metrics
-
-        return neg_cos_sim, z_std
-
-    def training_step(self, batch: Sequence[Any], batch_idx: int) -> torch.Tensor:
-        """Training step for BYOL reusing BaseMethod training step.
-
-        Args:
-            batch (Sequence[Any]): a batch of data in the format of [img_indexes, [X], Y], where
-                [X] is a list of size num_crops containing batches of images.
-            batch_idx (int): index of the batch.
-
-        Returns:
-            torch.Tensor: total loss composed of BYOL and classification loss.
-        """
-
-        out = super().training_step(batch, batch_idx)
-        class_loss = out["loss"]
-        # Z = out["z"]
-        # P = out["p"]
-        # Z_momentum = out["momentum_z"]
-
-        neg_cos_sim, z_std = self._shared_step(out["feats"], out["momentum_feats"])
-
-        # ------- negative consine similarity loss -------
-        # neg_cos_sim = byol_loss_func(P[1], Z_momentum[0]) + byol_loss_func(P[0], Z_momentum[1])
-
-        # neg_cos_sim = 0
-        # for v1 in range(self.num_large_crops):
-        #     for v2 in np.delete(range(self.num_crops), v1):
-        #         neg_cos_sim += byol_loss_func(P[v2], Z_momentum[v1])
-
-        # calculate std of features
-        # with torch.no_grad():
-        #     z_std = F.normalize(torch.stack(Z[: self.num_large_crops]), dim=-1).std(dim=1).mean()
-
-        metrics = {
-            "train_neg_cos_sim": neg_cos_sim,
-            "train_z_std": z_std,
-        }
-        self.log_dict(metrics, on_epoch=True, sync_dist=True)
 
         return neg_cos_sim + class_loss
