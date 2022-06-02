@@ -138,6 +138,8 @@ test_*
 *.ipynb
 *.pdf
 byol_*
+base_*
+# pxt ignore from here
 
 # solo-learn ignore from here
 # tensorboard dir

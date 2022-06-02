@@ -35,6 +35,7 @@ from solo.methods.swav import SwAV
 from solo.methods.vibcreg import VIbCReg
 from solo.methods.vicreg import VICReg
 from solo.methods.wmse import WMSE
+from solo.methods.byol_spatial import BYOL_spatial
 
 METHODS = {
     # base classes
@@ -57,6 +58,7 @@ METHODS = {
     "vibcreg": VIbCReg,
     "vicreg": VICReg,
     "wmse": WMSE,
+    "byol_spatial":BYOL_spatial,
 }
 __all__ = [
     "BarlowTwins",
@@ -77,4 +79,5 @@ __all__ = [
     "VIbCReg",
     "VICReg",
     "WMSE",
+    "BYOL_spatial",
 ]
