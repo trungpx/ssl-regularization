@@ -206,7 +206,7 @@ def main():
         os.mkdir(experimentdir)
 
         shutil.copytree(f"../../../solo", os.path.join(experimentdir, 'solo'))
-        shutil.copytree(f"../../../tests", os.path.join(experimentdir, 'tests'))
+        # shutil.copytree(f"../../../tests", os.path.join(experimentdir, 'tests'))
         shutil.copyfile(f"../../../main_pretrain.py", os.path.join(experimentdir, 'main_pretrain.py'))
         shutil.copyfile(f"../../../main_linear.py", os.path.join(experimentdir, 'main_linear.py'))
         import glob
