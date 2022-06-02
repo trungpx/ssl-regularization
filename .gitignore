@@ -137,6 +137,7 @@ test.sh
 test_*
 *.ipynb
 *.pdf
+byol_*
 
 # solo-learn ignore from here
 # tensorboard dir
