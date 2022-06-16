@@ -139,6 +139,7 @@ test_*
 *.pdf
 byol_*
 base_*
+*_ori*
 # pxt ignore from here
 
 # solo-learn ignore from here
